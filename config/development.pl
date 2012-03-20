@@ -9,4 +9,7 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
         +{
         }
     ],
+    'Mutuki' => {
+        'storage' => 'MySQL',
+    },
 };
