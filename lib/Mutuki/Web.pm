@@ -4,6 +4,7 @@ use warnings;
 use utf8;
 use parent qw/Mutuki Amon2::Web/;
 use File::Spec;
+use Text::Markdown;
 
 # dispatcher
 use Mutuki::Web::Dispatcher;
@@ -22,6 +23,7 @@ use Text::Xslate;
         'syntax'   => 'TTerse',
         'module'   => [ 'Text::Xslate::Bridge::Star' ],
         'function' => {
+            text_markdown => sub { Text::Markdown->new->markdown(@_) },
             c => sub { Amon2->context() },
             uri_with => sub { Amon2->context()->req->uri_with(@_) },
             uri_for  => sub { Amon2->context()->uri_for(@_) },

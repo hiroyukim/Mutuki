@@ -3,14 +3,11 @@ use strict;
 use warnings;
 use Carp ();
 use Try::Tiny;
-use Text::Markdown;
 
 sub show {
     my ($c) = @_;
 
-    my $stash = { 
-        text_markdown => sub { Text::Markdown->new->markdown(@_) }
-    };
+    my $stash = {};
 
     if( $c->req->param('wiki_id')  ) {
         $stash->{wiki} = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },

@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use Carp ();
 use Try::Tiny;
-use Text::Markdown;
 
 sub wiki_list {
     my ($c) = @_;
@@ -33,10 +32,7 @@ sub show {
 
     my ($rows,$page) = (10,$c->req->param('page')||1);
 
-    #FIXME: 本来別の場所に書かれているべきなのであとで纏める 
-    my $stash = {
-        text_markdown => sub { Text::Markdown->new->markdown(@_) },
-    };     
+    my $stash = {};     
 
     if( $c->req->param('wiki_group_id')  ) {
         $stash->{wiki_group} = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki_group WHERE id = ?},{ Columns => {} },
