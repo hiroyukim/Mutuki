@@ -12,8 +12,7 @@ sub init {
 sub _model {
     my ($c, $schema) = @_;
 
-    my $storage = $c->config->{Mutuki}->{storage} or die 'please set Mutuki storage.';
-    my $module  = 'Mutuki::Model::' . $storage;   
+    my $module  = 'Mutuki::Model::' .  $c->config->{model}->{$schema}->{storage} . '::' . $schema;   
 
     Class::Load::load_class($module);
 
