@@ -1,14 +1,16 @@
 [% WRAPPER 'include/layout.tt' %]
 
-<h2>[% wiki_group.title %]</h2>
+<h2><a href="/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a></h2>
 <div>
-<a href="/wiki/add?wiki_group_id=[% wiki_group.id %]">wiki追加</a>
+    <a href="/wiki/add?wiki_group_id=[% wiki_group.id %]">wiki追加</a>
 </div>
 
 <div>
-[% IF wiki_group.body %]
-    [% wiki_group.body %]
-[% END %]
+    [% IF wiki_group.body %]
+        [% text_markdown(wiki_group.body) | raw %]
+    [% END %]
+    <hr />
+    <a href="/group/edit?wiki_group_id=[% wiki_group.id %]">編集</a>
 </div>
 
 <div>

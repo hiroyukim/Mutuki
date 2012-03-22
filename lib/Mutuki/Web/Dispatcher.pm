@@ -11,15 +11,22 @@ any '/' => sub {
     my ($c) = @_;
 
     my ($rows,$page) = (10,$c->req->param('page')||1);
+    my $stash = {};
 
-    my $wiki_groups = $c->dbh->selectall_arrayref(q{SELECT * FROM wiki_group WHERE deleted_fg = 0 ORDER BY id DESC LIMIT ?,?},{ Columns => {} },
+    $stash->{wiki_groups} = $c->dbh->selectall_arrayref(q{SELECT * FROM wiki_group WHERE deleted_fg = 0 ORDER BY updated_at DESC LIMIT ?,?},{ Columns => {} },
         ( ($page - 1) * $rows),
         $rows,
     );
 
-    $c->render('index.tt',{
-        wiki_groups => $wiki_groups,
-    });
+    $stash->{selectrow_hashref_wiki} = sub {
+        my $wiki_id = shift or die 'wiki_id';
+
+        return $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
+            $wiki_id,
+        );
+    };
+
+    $c->render('index.tt',$stash);
 };
 
 get '/wiki/show' => sub {
@@ -42,7 +49,11 @@ get '/group/show' => sub {
     my ($c) = @_;
 
     my ($rows,$page) = (10,$c->req->param('page')||1);
-    my $stash = {};
+
+    #FIXME: 本来別の場所に書かれているべきなのであとで纏める 
+    my $stash = {
+        text_markdown => sub { Text::Markdown->new->markdown(@_) },
+    };     
 
     if( $c->req->param('wiki_group_id')  ) {
         $stash->{wiki_group} = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki_group WHERE id = ?},{ Columns => {} },
@@ -119,9 +130,25 @@ any '/wiki/add' => sub {
 
     if( $c->req->method eq 'POST' ) {
         if( @params == ( grep{ $c->req->param($_) } @params ) ) {
-            $c->dbh->do(q{INSERT INTO wiki (title,body,wiki_group_id,created_at) VALUES (?,?,?,NOW())}, {}, 
-                map { $c->req->param($_) } @params,
-            ); 
+            $c->dbh->begin_work;
+            try {
+                $c->dbh->do(q{INSERT INTO wiki (title,body,wiki_group_id,created_at) VALUES (?,?,?,NOW())}, {}, 
+                    map { $c->req->param($_) } @params,
+                ); 
+
+                my $last_insert_id = $c->dbh->selectrow_arrayref(q{SELECT LAST_INSERT_ID() FROM wiki});
+
+                $c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ? WHERE id = ?}, {}, 
+                    $last_insert_id->[0],$c->req->param('wiki_group_id'),
+                ); 
+            
+                $c->dbh->commit();
+            }
+            catch {
+                my $err = shift;
+                $c->dbh->rollback();
+                Carp::croak($err);
+            };
         }
         return $c->redirect('/');
     }
@@ -140,6 +167,56 @@ post '/group/add' => sub {
         ); 
     }
     $c->redirect('/');
+};
+
+any '/group/edit' => sub {
+    my ($c) = @_;
+
+    unless( $c->req->param('wiki_group_id') ) {
+        $c->redirect('/');
+    }
+
+    my $wiki_group = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki_group WHERE id = ?},{ Columns => {} },
+        $c->req->param('wiki_group_id') 
+    );
+
+    unless( $wiki_group ) {
+        $c->redirect('/');
+    }
+
+    my @params = qw/title body/;
+
+    if( $c->req->method eq 'POST' ) {
+        if( grep{ $c->req->param($_) } @params  ) {
+
+            $c->dbh->begin_work;
+            try {
+
+                $c->dbh->do(q{INSERT INTO wiki_group_history (title,body,wiki_group_id,created_at) VALUES (?,?,?,?)}, {}, 
+                    map { $wiki_group->{$_} } qw/title body id created_at/
+                ); 
+
+                $c->dbh->do(q{UPDATE wiki_group SET title = ?, body = ? WHERE id = ?}, {}, 
+                    ( map { $c->req->param($_) || $wiki_group->{$_} } @params ),
+                    $wiki_group->{id},
+                ); 
+            
+                $c->dbh->commit();
+            }
+            catch {
+                my $err = shift;
+                $c->dbh->rollback();
+                Carp::croak($err);
+            };
+        }
+        return $c->redirect('/group/show',{ wiki_group_id => $wiki_group->{id} });
+    }
+
+    $c->fillin_form($wiki_group);
+    
+    $c->render('/group/edit.tt',{
+        wiki_group => $wiki_group,
+    }); 
 };
 
 1;
