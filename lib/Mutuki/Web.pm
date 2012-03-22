@@ -5,11 +5,12 @@ use utf8;
 use parent qw/Mutuki Amon2::Web/;
 use File::Spec;
 use Text::Markdown;
+use Class::Load;
 
 # dispatcher
 use Mutuki::Web::Dispatcher;
 sub dispatch {
-    return Mutuki::Web::Dispatcher->dispatch($_[0]) or die "response is not generated";
+    Mutuki::Web::Dispatcher->dispatch_with_load_class($_[0]) or die "response is not generated";
 }
 
 # setup view class
