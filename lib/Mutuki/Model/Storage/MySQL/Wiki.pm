@@ -15,6 +15,37 @@ sub single {
     );
 }
 
+sub add {
+    args my $self,
+         my $wiki_group_id => 'Int',
+         my $title         => 'Str' ,
+         my $body          => 'Str' ;
+
+    if( $wiki_group_id && $title && $body ) {
+        $self->c->dbh->begin_work;
+        try {
+            $self->c->dbh->do(q{INSERT INTO wiki (title,body,wiki_group_id,created_at) VALUES (?,?,?,NOW())}, {}, 
+                $title,
+                $body,
+                $wiki_group_id,
+            ); 
+
+            my $last_insert_id = $self->c->dbh->selectrow_arrayref(q{SELECT LAST_INSERT_ID() FROM wiki});
+
+            $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ? WHERE id = ?}, {}, 
+                $last_insert_id->[0],$wiki_group_id,
+            ); 
+        
+            $self->c->dbh->commit();
+        }
+        catch {
+            my $err = shift;
+            $self->c->dbh->rollback();
+            Carp::croak($err);
+        };
+    }
+}
+
 sub delete {
     args my $self,
          my $wiki_id => 'Int';
@@ -50,6 +81,44 @@ sub delete {
         $self->c->dbh->rollback();
         Carp::croak($err);
     };
+}
+
+sub edit {
+    args my $self,
+         my $wiki_id => 'Int';
+         my $title   => { isa => 'Str', optional => 1 },
+         my $body    => { isa => 'Str', optional => 1 };
+
+    my $wiki = $self->c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
+        $wiki_id,
+    );
+
+    unless( $wiki ) {
+        Carp::croak($wiki_id);
+    }
+
+    if( $title or $body ) {
+        $self->c->dbh->begin_work;
+        try {
+
+            $self->c->dbh->do(q{INSERT INTO wiki_history (title,body,wiki_id,created_at) VALUES (?,?,?,?)}, {}, 
+                map { $wiki->{$_} } qw/title body id created_at/
+            ); 
+
+            $self->c->dbh->do(q{UPDATE wiki SET title = ?, body = ? WHERE id = ?}, {}, 
+                $title || $wiki->{title},
+                $body  || $wiki->{body},
+                $wiki->{id},
+            ); 
+        
+            $self->c->dbh->commit();
+        }
+        catch {
+            my $err = shift;
+            $self->c->dbh->rollback();
+            Carp::croak($err);
+        };
+    }
 }
 
 1;
