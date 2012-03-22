@@ -2,6 +2,9 @@ package Mutuki::Web::Dispatcher;
 use strict;
 use warnings;
 use utf8;
+use Carp ();
+use Try::Tiny;
+use Text::Markdown;
 use Amon2::Web::Dispatcher::Lite;
 
 any '/' => sub {
@@ -22,7 +25,9 @@ any '/' => sub {
 get '/wiki/show' => sub {
     my ($c) = @_;
 
-    my $stash = { };
+    my $stash = { 
+        text_markdown => sub { Text::Markdown->new->markdown(@_) }
+    };
 
     if( $c->req->param('wiki_id')  ) {
         $stash->{wiki} = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
@@ -51,6 +56,56 @@ get '/group/show' => sub {
     }
     
     $c->render('/group/show.tt',$stash); 
+};
+
+any '/wiki/edit' => sub {
+    my ($c) = @_;
+
+    unless( $c->req->param('wiki_id') ) {
+        $c->redirect('/');
+    }
+
+    my $wiki = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
+        $c->req->param('wiki_id') 
+    );
+
+    unless( $wiki ) {
+        $c->redirect('/');
+    }
+
+    my @params = qw/title body/;
+
+    if( $c->req->method eq 'POST' ) {
+        if( grep{ $c->req->param($_) } @params  ) {
+
+            $c->dbh->begin_work;
+            try {
+
+                $c->dbh->do(q{INSERT INTO wiki_history (title,body,wiki_id,created_at) VALUES (?,?,?,?)}, {}, 
+                    map { $wiki->{$_} } qw/title body id created_at/
+                ); 
+
+                $c->dbh->do(q{UPDATE wiki SET title = ?, body = ? WHERE id = ?}, {}, 
+                    ( map { $c->req->param($_) || $wiki->{$_} } @params ),
+                    $wiki->{id},
+                ); 
+            
+                $c->dbh->commit();
+            }
+            catch {
+                my $err = shift;
+                $c->dbh->rollback();
+                Carp::croak($err);
+            };
+        }
+        return $c->redirect('/wiki/show',{ wiki_id => $wiki->{id} });
+    }
+
+    $c->fillin_form($wiki);
+    
+    $c->render('/wiki/edit.tt',{
+        wiki => $wiki,
+    }); 
 };
 
 any '/wiki/add' => sub {

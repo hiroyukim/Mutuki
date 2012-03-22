@@ -1,11 +1,20 @@
 [% WRAPPER 'include/layout.tt' %]
 
-<h2>[% wiki.title %]</h2>
+<div>
+    <h1>[[% wiki.title %]]</h1>
+    <div>[% wiki.updated_at %]</div>
+</div>
+
+<hr />
 
 <div>
 [% IF wiki.body %]
-    [% wiki.body | raw %]
+    [% text_markdown(wiki.body) | raw %]
 [% END %]
+</div>
+
+<div>
+    <a href="/wiki/edit?wiki_id=[% wiki.id %]">編集</a>
 </div>
 
 [% END %]
