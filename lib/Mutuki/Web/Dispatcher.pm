@@ -2,7 +2,6 @@ package Mutuki::Web::Dispatcher;
 use strict;
 use warnings;
 use utf8;
-use Mutuki::Text::Xatena;
 use Amon2::Web::Dispatcher::Lite;
 
 any '/' => sub {
@@ -23,11 +22,7 @@ any '/' => sub {
 get '/wiki/show' => sub {
     my ($c) = @_;
 
-    my $stash = {
-        text_xatena => sub {
-            Mutuki::Text::Xatena->format(@_);
-        },
-    };
+    my $stash = { };
 
     if( $c->req->param('wiki_id')  ) {
         $stash->{wiki} = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },

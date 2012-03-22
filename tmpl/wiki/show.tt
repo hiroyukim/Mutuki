@@ -4,7 +4,7 @@
 
 <div>
 [% IF wiki.body %]
-    [% text_xatena(wiki.body) | raw %]
+    [% wiki.body | raw %]
 [% END %]
 </div>
 
