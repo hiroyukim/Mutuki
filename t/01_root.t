@@ -4,7 +4,7 @@ use utf8;
 use t::Util;
 use Plack::Test;
 use Plack::Util;
-use Test::More;
+use Test::More skip_all => 'skip_all';
 
 my $app = Plack::Util::load_psgi 'app.psgi';
 test_psgi
