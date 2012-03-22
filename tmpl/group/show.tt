@@ -1,0 +1,23 @@
+[% WRAPPER 'include/layout.tt' %]
+
+<h2>[% wiki_group.title %]</h2>
+<div>
+<a href="/wiki/add?wiki_group_id=[% wiki_group.id %]">wiki追加</a>
+</div>
+
+<div>
+[% IF wiki_group.body %]
+    [% wiki_group.body %]
+[% END %]
+</div>
+
+<div>
+    <h4>このグループのwiki</h4>
+    <ul>
+    [% FOR wiki IN wikis %]
+        <li><a href="/wiki/show?wiki_id=[% wiki.id %]">[% wiki.title %]</a></li>
+    [% END %]
+    </ul>
+</div>
+
+[% END %]

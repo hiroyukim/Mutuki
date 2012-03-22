@@ -1,0 +1,11 @@
+[% WRAPPER 'include/layout.tt' %]
+
+<h2>[% wiki.title %]</h2>
+
+<div>
+[% IF wiki.body %]
+    [% text_xatena(wiki.body) | raw %]
+[% END %]
+</div>
+
+[% END %]

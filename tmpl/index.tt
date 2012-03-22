@@ -11,7 +11,7 @@
 [% IF wiki_groups && wiki_groups.size() > 0 %]
     <ul>
     [% FOR wiki_group IN wiki_groups %]
-        <li><a href="/group/show?id=[% wiki_group.id %]">[% wiki_group.title %]</a></li>
+        <li><a href="/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a></li>
     [% END %]
     </ul>
 [% END %]

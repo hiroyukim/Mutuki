@@ -1,0 +1,14 @@
+[% WRAPPER 'include/layout.tt' %]
+
+<h2>Wikiを追加</h2>
+
+<div>
+    <form method="POST" action="/wiki/add">
+        <input type="hidden" name="wiki_group_id" value="[% wiki_group_id %]" />
+        <input type="text" name="title" /><br />
+        <textarea name="body" rows="20" cols="70"></textarea><br />
+        <input type="submit" value="submit" />
+    </form>
+</div>
+
+[% END %]
