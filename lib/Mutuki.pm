@@ -9,7 +9,6 @@ use 5.008001;
 __PACKAGE__->load_plugin(qw/DBI/);
 
 # initialize database
-use DBI;
 sub setup_schema { }
 
 1;
