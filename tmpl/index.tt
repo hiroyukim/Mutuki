@@ -13,6 +13,7 @@
     [% FOR wiki_group IN wiki_groups %]
         <li>
             <a href="/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a>
+            [<a href="/group/delete?wiki_group_id=[% wiki_group.id %]">x</a>]
             [% IF wiki_group.last_updated_wiki_id %]
                 [% SET wiki = selectrow_hashref_wiki(wiki_group.last_updated_wiki_id) %]
                 [[% wiki.title %]([% wiki.updated_at %])]

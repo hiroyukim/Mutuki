@@ -69,6 +69,52 @@ get '/group/show' => sub {
     $c->render('/group/show.tt',$stash); 
 };
 
+any '/wiki/delete' => sub {
+    my ($c) = @_;
+    
+    unless( $c->req->param('wiki_id') ) {
+        $c->redirect('/');
+    }
+
+    my $wiki = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
+        $c->req->param('wiki_id') 
+    );
+
+    unless( $wiki ) {
+        $c->redirect('/');
+    }
+
+    if( $c->req->method eq 'POST'  ) {
+        #FIXME: 重複多すぎなんで治す
+        $c->dbh->begin_work;
+        try {
+            $c->dbh->do(q{UPDATE wiki SET deleted_fg = 1 WHERE id = ?}, {}, 
+                $c->req->param('wiki_id'),
+            ); 
+
+            # wiki_group.last_updated_wiki_id を更新する必要がある
+            my $last_updated_wiki = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE deleted_fg = 0 ORDER BY updated_at LIMIT 1},{ Columns => {} });  
+            
+            $c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ? WHERE id = ?}, {}, 
+                ( $last_updated_wiki ? $last_updated_wiki->{id} : 0 ), 
+                $wiki->{wiki_group_id},
+            ); 
+
+            $c->dbh->commit();
+        }
+        catch {
+            my $err = shift;
+            $c->dbh->rollback();
+            Carp::croak($err);
+        };
+         
+        return $c->redirect('/');
+    }
+
+    $c->render('/wiki/delete.tt',{ wiki => $wiki }); 
+};
+
+
 any '/wiki/edit' => sub {
     my ($c) = @_;
 
@@ -155,6 +201,34 @@ any '/wiki/add' => sub {
     
     $c->render('/wiki/add.tt',{
         wiki_group_id => $c->req->param('wiki_group_id'),
+    }); 
+};
+
+any '/group/delete' => sub {
+    my ($c) = @_;
+   
+    # FIXME: このへんを美しくしたい 
+    unless( $c->req->param('wiki_group_id') ) {
+        $c->redirect('/');
+    }
+
+    my $wiki_group = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki_group WHERE id = ?},{ Columns => {} },
+        $c->req->param('wiki_group_id') 
+    );
+
+    unless( $wiki_group ) {
+        $c->redirect('/');
+    }
+
+    if( $c->req->method eq 'POST' ) {
+        $c->dbh->do(q{UPDATE wiki_group SET deleted_fg = 1 WHERE id = ?}, {}, 
+            $c->req->param('wiki_group_id'),
+        ); 
+        return $c->redirect('/');
+    }
+    
+    $c->render('/group/delete.tt',{
+        wiki_group => $wiki_group,
     }); 
 };
 

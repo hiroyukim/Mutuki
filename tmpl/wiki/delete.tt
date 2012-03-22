@@ -1,0 +1,16 @@
+[% WRAPPER 'include/layout.tt' %]
+
+<h2>Wikiの削除</h2>
+
+<div>
+本当に「[% wiki.title %]」を削除しますか？
+</div>
+
+<div>
+    <form method="POST" action="/wiki/delete">
+        <input type="hidden" name="wiki_id" value="[% wiki.id %]" />
+        <input type="submit" value="submit" />
+    </form>
+</div>
+
+[% END %]
