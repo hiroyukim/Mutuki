@@ -21,6 +21,10 @@ Mutukiは, 家庭内・会社内等で簡易的に動かせるWikiを目指し�
 
     # plackup
     plackup 
+# 参照
+
++ Markdown
+++ http://blog.2310.net/archives/6
 
 # Author
 
