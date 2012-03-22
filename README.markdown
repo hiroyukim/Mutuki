@@ -38,3 +38,9 @@ Mutukiは, 家庭内・会社内等で簡易的に動かせるWikiを目指し�
 # Author
 
 twitter @hiroyukim
+
+# ライセンス
+
+Copyright (C) 2011 HIROYUKI Yamanaka <hiroyukimm 空気読んで gmail 空気読んで com>
+
+Released under the [MIT license](http://creativecommons.org/licenses/MIT/).
