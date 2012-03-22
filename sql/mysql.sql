@@ -17,7 +17,7 @@ CREATE TABLE wiki (
   created_at   datetime         NOT NULL,
   updated_at   TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX wiki_group_id_deleted_fg (wiki_group_id_deleted_fg)
+  INDEX wiki_group_id_deleted_fg (wiki_group_id,deleted_fg)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 CREATE TABLE wiki_history (
