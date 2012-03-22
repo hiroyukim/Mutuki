@@ -4,11 +4,11 @@ use warnings;
 use Amon2::Web::Dispatcher::RouterSimple;
 
 connect '/'                 => 'Root#index';
-connect '/group/show'       => 'Group#show';
-connect '/group/add'        => 'Group#add';
-connect '/group/edit'       => 'Group#edit';
-connect '/group/delete'     => 'Group#delete';
-connect '/group/wiki/list'  => 'Group#wiki_list';
+connect '/wiki/group/show'       => 'Wiki::Group#show';
+connect '/wiki/group/add'        => 'Wiki::Group#add';
+connect '/wiki/group/edit'       => 'Wiki::Group#edit';
+connect '/wiki/group/delete'     => 'Wiki::Group#delete';
+connect '/wiki/group/wiki/list'  => 'Wiki::Group::Wiki#list';
 
 connect '/wiki/show'       => 'Wiki#show';
 connect '/wiki/add'        => 'Wiki#add';

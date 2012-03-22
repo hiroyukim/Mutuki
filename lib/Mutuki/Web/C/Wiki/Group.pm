@@ -1,4 +1,4 @@
-package Mutuki::Web::C::Group;
+package Mutuki::Web::C::Wiki::Group;
 use strict;
 use warnings;
 use Carp ();
