@@ -56,7 +56,7 @@ sub edit {
 
     if( $c->req->method eq 'POST' ) {
         if( grep{ $c->req->param($_) } @params  ) {
-            $c->model('Wiki')->edit({
+            $c->model('Wiki')->update({
                 wiki_id => $wiki->{id},
                 map { $c->req->param($_) } @params,                
             });

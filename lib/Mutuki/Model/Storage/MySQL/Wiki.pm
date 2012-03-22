@@ -83,7 +83,7 @@ sub delete {
     };
 }
 
-sub edit {
+sub update {
     args my $self,
          my $wiki_id => 'Int';
          my $title   => { isa => 'Str', optional => 1 },
