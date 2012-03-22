@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 sub index {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     my ($rows,$page) = (10,$c->req->param('page')||1);
     my $stash = {};
