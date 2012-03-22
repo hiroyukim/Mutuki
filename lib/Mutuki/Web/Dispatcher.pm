@@ -11,10 +11,10 @@ connect '/wiki/group/edit'       => { controller => 'Wiki::Group', action => 'ed
 connect '/wiki/group/delete'     => { controller => 'Wiki::Group', action => 'delete' };
 #connect '/wiki/group/wiki/list'  => 'Wiki::Group::Wiki#list';
 
-connect '/wiki/show'       => 'Wiki#show';
-connect '/wiki/add'        => 'Wiki#add';
-connect '/wiki/edit'       => 'Wiki#edit';
-connect '/wiki/delete'     => 'Wiki#delete';
-connect '/wiki/wiki/list'  => 'Wiki#wiki_list';
+connect '/wiki/show'       => { controller => 'Wiki', action => 'show'   };
+connect '/wiki/add'        => { controller => 'Wiki', action => 'add'    };
+connect '/wiki/edit'       => { controller => 'Wiki', action => 'edit'   };
+connect '/wiki/delete'     => { controller => 'Wiki', action => 'delete' };
+connect '/wiki/list'       => { controller => 'Wiki', action => 'list'   };
 
 1;
