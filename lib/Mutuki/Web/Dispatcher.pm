@@ -59,7 +59,7 @@ get '/group/show' => sub {
         $stash->{wiki_group} = $c->dbh->selectrow_hashref(q{SELECT * FROM wiki_group WHERE id = ?},{ Columns => {} },
             $c->req->param('wiki_group_id') 
         );
-        $stash->{wikis} = $c->dbh->selectall_arrayref(q{SELECT * FROM wiki WHERE wiki_group_id = ? AND deleted_fg = 0 ORDER BY id DESC LIMIT ?,?},{ Columns => {} },
+        $stash->{wikis} = $c->dbh->selectall_arrayref(q{SELECT * FROM wiki WHERE wiki_group_id = ? AND deleted_fg = 0 ORDER BY updated_at DESC LIMIT ?,?},{ Columns => {} },
             $c->req->param('wiki_group_id'),
             ( ($page - 1) * $rows),
             $rows,

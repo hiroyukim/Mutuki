@@ -19,6 +19,7 @@
     [% FOR wiki IN wikis %]
         <li>
             <a href="/wiki/show?wiki_id=[% wiki.id %]">[% wiki.title %]</a>
+            ([% wiki.updated_at %])
             [<a href="/wiki/delete?wiki_id=[% wiki.id %]">x</a>]
         </li>
     [% END %]
