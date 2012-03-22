@@ -2,7 +2,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME          => 'Mutuki',
-    AUTHOR        => 'Some Person <person@example.com>',
+    AUTHOR        => 'Hiroyuki Yamanaka <hroyukimm atatatat goole sann>',
     VERSION_FROM  => 'lib/Mutuki.pm',
     PREREQ_PM     => {
         'Amon2'                           => '3.32',
