@@ -23,10 +23,9 @@ Mutukiは, 家庭内・会社内等で簡易的に動かせるWikiを目指し�
 
 # 使用方法 
 
-    # sql 初期化
+    git clone git://github.com/hiroyukim/Mutuki.git
+    cd Mutuki
     cat sql/mysql.sql | mysql -uroot -p
-
-    # plackup
     plackup 
 
 # 参照
@@ -38,4 +37,4 @@ Mutukiは, 家庭内・会社内等で簡易的に動かせるWikiを目指し�
 
 # Author
 
-    twitter @hiroyukim
+twitter @hiroyukim
