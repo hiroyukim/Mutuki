@@ -98,7 +98,7 @@ sub delete {
 
 sub update {
     args my $self,
-         my $wiki_id => 'Int';
+         my $wiki_id => 'Int',
          my $title   => { isa => 'Str', optional => 1 },
          my $body    => { isa => 'Str', optional => 1 };
 
