@@ -55,10 +55,10 @@ sub edit {
     my @params = qw/title body/;
 
     if( $c->req->method eq 'POST' ) {
-        if( grep{ $c->req->param($_) } @params  ) {
+        if( grep { $c->req->param($_) } @params  ) {
             $c->model('Wiki')->update({
                 wiki_id => $wiki->{id},
-                map { $c->req->param($_) } @params,                
+                ( map { $_ => $c->req->param($_) } @params ),                
             });
         }
         return $c->redirect('/wiki/show',{ wiki_id => $wiki->{id} });
@@ -83,7 +83,7 @@ sub add {
     if( $c->req->method eq 'POST' ) {
         if( @params == ( grep{ $c->req->param($_) } @params ) ) {
             $c->model('Wiki')->add({
-                map { $c->req->param($_) } @params
+                map { $_ => $c->req->param($_) } @params
             });
         }
         return $c->redirect('/');
