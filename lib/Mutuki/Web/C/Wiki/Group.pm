@@ -18,11 +18,11 @@ sub show {
         $stash->{wikis} = $c->model('Wiki')->list_with_pager({
             wiki_group_id => $c->req->param('wiki_group_id'),
             rows => $rows,
-            page => ( ($page - 1) * $rows),
+            page => $page,
         });
     }
     
-    $c->render('/group/show.tt',$stash); 
+    $c->render('/wiki/group/show.tt',$stash); 
 };
 
 sub delete {
@@ -48,7 +48,7 @@ sub delete {
         return $c->redirect('/');
     }
     
-    $c->render('/group/delete.tt',{
+    $c->render('/wiki/group/delete.tt',{
         wiki_group => $wiki_group,
     }); 
 };
@@ -94,7 +94,7 @@ sub edit {
 
     $c->fillin_form($wiki_group);
     
-    $c->render('/group/edit.tt',{
+    $c->render('/wiki/group/edit.tt',{
         wiki_group => $wiki_group,
     }); 
 };
