@@ -84,3 +84,16 @@ CREATE TABLE user_group (
   PRIMARY KEY (`id`),
   INDEX deleted_fg (deleted_fg)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+CREATE TABLE wiki_group_attribute_user_group (
+  id             int(10) unsigned NOT NULL auto_increment,
+  wiki_group_id  int(10) unsigned NOT NULL, 
+  user_group_id  int(10) unsigned NOT NULL, 
+  write_fg       tinyint(1) NOT NULL default '0',
+  read_fg        tinyint(1) NOT NULL default '0',
+  created_at   datetime         NOT NULL,
+  updated_at   TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX wiki_group_id ( wiki_group_id ),
+  UNIQUE user_group_id_wiki_group_id(user_group_id,wiki_group_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
