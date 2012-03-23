@@ -1,6 +1,7 @@
 [% WRAPPER 'include/layout_admin.tt' %]
 
 <div>
+    [% IF users && users.size() > 0 %]
     <form method="POST" action="/admin/user/attribute/group/add">
         <input type="hidden" name="user_group_id" value="[% user_group.id %]" />
         <div>
@@ -10,6 +11,9 @@
         </div>
         <input type="submit" value="submit" />
     </form>
+    [% ELSE %]
+        現在追加できるユーザーはいません。
+    [% END %]
 </div>
 
 [% END %]
