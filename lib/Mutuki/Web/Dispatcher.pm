@@ -32,4 +32,10 @@ connect '/admin/user/group/delete'     => { controller => 'Admin::User::Group', 
 
 connect '/admin/user/attribute/group/add'   => { controller => 'Admin::User::Attribute::Group', action => 'add'    };
 
+connect '/admin/wiki/group/'           => { controller => 'Admin::Wiki::Group', action => 'index'  };
+connect '/admin/wiki/group/show'       => { controller => 'Admin::Wiki::Group', action => 'show'   };
+
+connect '/admin/wiki/group/attribute/user/group/edit'        => { controller => 'Admin::Wiki::Group::Attribute::User::Group', action => 'edit'         };
+connect '/admin/wiki/group/attribute/user/group/edit_thanks' => { controller => 'Admin::Wiki::Group::Attribute::User::Group', action => 'edit_thanks'  };
+
 1;
