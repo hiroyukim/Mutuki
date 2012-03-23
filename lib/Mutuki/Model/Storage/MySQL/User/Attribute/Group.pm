@@ -26,12 +26,15 @@ sub list_by_user_id {
 
 sub add {
     args my $self,
-         my $user_id       => 'Int',
+         my $user_id       => 'ArrayRef',
          my $user_group_id => 'Int';
 
-    $self->c->dbh->do(q{INSERT INTO user_attribute_group (user_id,user_group_id,created_at) VALUES (?,?,NOW())}, {}, 
-        $user_id,
-        $user_group_id,
+    #FIXME: 汚い
+    my $values = '(?,?,NOW()),'x scalar(@$user_id);
+    chop $values;
+
+    $self->c->dbh->do(qq{INSERT INTO user_attribute_group (user_id,user_group_id,created_at) VALUES $values}, {}, 
+        map { ($_, $user_group_id ) } @$user_id,
     ); 
 }
 
