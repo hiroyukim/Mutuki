@@ -9,26 +9,24 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
         +{
         }
     ],
-    'Mutuki' => {
-        model => {
-            Wiki => { 
-                'storage' => 'MySQL',
-            },     
-            WikiHistory => { 
-                'storage' => 'MySQL',
-            },     
-            WikiGroup => { 
-                'storage' => 'MySQL',
-            },     
-            WikiGroupHistory => { 
-                'storage' => 'MySQL',
-            },     
-            User => { 
-                'storage' => 'MySQL',
-            },     
-            UserGroup => { 
-                'storage' => 'MySQL',
-            },     
-        },
+    model => {
+        'Wiki' => { 
+            'storage' => 'MySQL',
+        },     
+        'Wiki::History' => { 
+            'storage' => 'MySQL',
+        },     
+        'Wiki::Group' => { 
+            'storage' => 'MySQL',
+        },     
+        'Wiki::Group::History' => { 
+            'storage' => 'MySQL',
+        },     
+        'User' => { 
+            'storage' => 'MySQL',
+        },     
+        'User::Group' => { 
+            'storage' => 'MySQL',
+        },     
     },
 };

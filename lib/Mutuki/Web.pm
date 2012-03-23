@@ -51,6 +51,7 @@ use Text::Xslate;
 __PACKAGE__->load_plugins(
     'Web::FillInFormLite',
     'Web::CSRFDefender',
+    '+Mutuki::Plugin::Model',
 );
 
 # for your security

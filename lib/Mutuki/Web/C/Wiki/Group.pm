@@ -5,7 +5,7 @@ use Carp ();
 use Try::Tiny;
 
 sub show {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     my ($rows,$page) = (10,$c->req->param('page')||1);
 
@@ -14,7 +14,7 @@ sub show {
     if( $c->req->param('wiki_group_id')  ) {
         $stash->{wiki_group} = $c->model('Wiki::Group')->single({
             wiki_group_id => $c->req->param('wiki_group_id'), 
-        );
+        });
         $stash->{wikis} = $c->model('Wiki')->list_with_pager({
             wiki_group_id => $c->req->param('wiki_group_id'),
             rows => $rows,
@@ -26,7 +26,7 @@ sub show {
 };
 
 sub delete {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
    
     # FIXME: このへんを美しくしたい 
     unless( $c->req->param('wiki_group_id') ) {
@@ -35,7 +35,7 @@ sub delete {
     
     my $wiki_group = $c->model('Wiki::Group')->single({
         wiki_group_id => $c->req->param('wiki_group_id'), 
-    );
+    });
 
     unless( $wiki_group ) {
         $c->redirect('/');
@@ -54,7 +54,7 @@ sub delete {
 };
 
 sub add {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     if( $c->req->param('title')  ) {
         $c->model('Wiki::Group')->add({
@@ -65,7 +65,7 @@ sub add {
 };
 
 sub edit {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     unless( $c->req->param('wiki_group_id') ) {
         $c->redirect('/');
@@ -73,7 +73,7 @@ sub edit {
 
     my $wiki_group = $c->model('Wiki::Group')->single({
         wiki_group_id => $c->req->param('wiki_group_id'), 
-    );
+    });
 
     unless( $wiki_group ) {
         $c->redirect('/');
@@ -100,7 +100,7 @@ sub edit {
 };
 
 sub wiki_list {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     my ($rows,$page) = (10,$c->req->param('page')||1);
     my $stash = {};

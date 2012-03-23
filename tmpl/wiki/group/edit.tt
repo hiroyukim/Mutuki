@@ -3,7 +3,7 @@
 <h2>WikiGroupを編集</h2>
 
 <div>
-    <form method="POST" action="/group/edit">
+    <form method="POST" action="/wiki/group/edit">
         <input type="hidden" name="wiki_group_id" value="[% wiki_group.id %]" />
         <input type="text" name="title" /><br />
         <textarea name="body" rows="20" cols="70"></textarea><br />

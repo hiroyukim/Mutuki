@@ -7,7 +7,7 @@
 </div>
 
 <div>
-    <form method="POST" action="/group/delete">
+    <form method="POST" action="/wiki/group/delete">
         <input type="hidden" name="wiki_group_id" value="[% wiki_group.id %]" />
         <input type="submit" value="submit" />
     </form>

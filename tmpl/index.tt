@@ -1,7 +1,7 @@
 [% WRAPPER 'include/layout.tt' %]
 
 <div>
-    <form method="POST" action="/group/add">
+    <form method="POST" action="/wiki/group/add">
         グループを追加:
         <input type="text" name="title" />
         <input type="submit" value="submit" />
@@ -12,8 +12,8 @@
     <ul>
     [% FOR wiki_group IN wiki_groups %]
         <li>
-            <a href="/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a>
-            [<a href="/group/delete?wiki_group_id=[% wiki_group.id %]">x</a>]
+            <a href="/wiki/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a>
+            [<a href="/wiki/group/delete?wiki_group_id=[% wiki_group.id %]">x</a>]
             [% IF wiki_group.last_updated_wiki_id %]
                 [% SET wiki = selectrow_hashref_wiki(wiki_group.last_updated_wiki_id) %]
                 [[% wiki.title %]([% wiki.updated_at %])]

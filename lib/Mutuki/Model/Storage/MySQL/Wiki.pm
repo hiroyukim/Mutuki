@@ -8,7 +8,7 @@ use Smart::Args;
 
 sub list_with_pager {
     args my $self,
-         my $wiki_group_id => 'Int';
+         my $wiki_group_id => 'Int',
          my $rows          => { isa => 'Int', optional => 1, default => 10 },
          my $page          => { isa => 'Int', optional => 1, default => 1  };
 
@@ -64,7 +64,7 @@ sub delete {
          my $wiki_id => 'Int';
 
     my $wiki = $self->c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
-        $wiki_id; 
+        $wiki_id, 
     );
 
     #FIXME: Exceptionクラス作ったらそちらへ移す

@@ -25,7 +25,7 @@ sub delete {
         Carp::croak($wiki_group);
     }
 
-    $c->dbh->do(q{UPDATE wiki_group SET deleted_fg = 1 WHERE id = ?}, {}, 
+    $self->c->dbh->do(q{UPDATE wiki_group SET deleted_fg = 1 WHERE id = ?}, {}, 
         $wiki_group_id,
     ); 
 };
@@ -34,7 +34,7 @@ sub add {
     args my $self,
          my $title         => 'Str';
 
-    $c->dbh->do(q{INSERT INTO wiki_group (title,created_at) VALUES (?,NOW())}, {}, 
+    $self->c->dbh->do(q{INSERT INTO wiki_group (title,created_at) VALUES (?,NOW())}, {}, 
         $title,
     ); 
 };
@@ -52,7 +52,7 @@ sub update {
     }
 
     if( $title or $body ) { 
-        $c->dbh->begin_work;
+        $self->c->dbh->begin_work;
         try {
 
             $self->c->dbh->do(q{INSERT INTO wiki_group_history (title,body,wiki_group_id,created_at) VALUES (?,?,?,?)}, {}, 
@@ -60,16 +60,16 @@ sub update {
             ); 
 
             $self->c->dbh->do(q{UPDATE wiki_group SET title = ?, body = ? WHERE id = ?}, {}, 
-                $wiki->{title} || $wiki_group->{title},
-                $wiki->{body}  || $wiki_group->{body},
+                $title || $wiki_group->{title},
+                $body  || $wiki_group->{body},
                 $wiki_group->{id},
             ); 
         
-            $c->dbh->commit();
+            $self->c->dbh->commit();
         }
         catch {
             my $err = shift;
-            $c->dbh->rollback();
+            $self->c->dbh->rollback();
             Carp::croak($err);
         };
     }
