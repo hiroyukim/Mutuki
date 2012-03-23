@@ -1,4 +1,4 @@
-[% WRAPPER 'include/layout.tt' %]
+[% WRAPPER 'include/layout_admin.tt' %]
 
 <div>
     [<a href="/admin/user/group/add">ユーザーグループ追加</a>]
