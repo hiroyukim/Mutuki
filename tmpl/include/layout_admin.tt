@@ -5,12 +5,15 @@
     <title>[% title || 'Mutuki' %]</title>
     <meta http-equiv="Content-Style-Type" content="text/css" />
     <meta http-equiv="Content-Script-Type" content="text/javascript" />
+    <link href="[% uri_for('/static/bootstrap/bootstrap.min.css') %]" rel="stylesheet" type="text/css" />
+    <script src="[% uri_for('/static/bootstrap/bootstrap-dropdown.js') %]"></script>
+    <script src="[% static_file('/static/js/main.js') %]"></script>
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"]]>
     <meta name="format-detection" content="telephone=no" />
         <script src="[% uri_for('/static/js/jquery-1.7.1.min.js') %]"></script>
         <script src="[% uri_for('/static/js/prettify/prettify.js') %]"></script>
+    <link href="[% static_file('/static/css/main.css') %]" rel="stylesheet" type="text/css" media="screen" />
     <link href="[% uri_for('/static/js/prettify/prettify.css') %]" rel="stylesheet" type="text/css" />
-    <link href="https://raw.github.com/clownfart/Markdown-CSS/master/markdown.css" rel="stylesheet"></link>
     <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -33,6 +36,7 @@
         [<a href="/">TOP</a>]
         [<a href="/admin/user/group/">ユーザーグループ一覧</a>]
         [<a href="/admin/user/">ユーザー一覧</a>]
+        [<a href="/admin/wiki/group/">Wiki一覧</a>]
     </div>
     <div class="container">
         <div id="main">
