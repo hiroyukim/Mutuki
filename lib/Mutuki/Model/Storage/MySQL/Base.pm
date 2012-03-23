@@ -1,4 +1,4 @@
-package Mutuki::Model::Storage::MySQL::Wiki::Base;
+package Mutuki::Model::Storage::MySQL::Base;
 use strict;
 use warnings;
 use Smart::Args;
