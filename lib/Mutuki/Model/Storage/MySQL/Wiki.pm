@@ -80,7 +80,7 @@ sub delete {
         ); 
 
         # wiki_group.last_updated_wiki_id を更新する必要がある
-        my $last_updated_wiki = $self->c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE deleted_fg = 0 ORDER BY updated_at LIMIT 1},{ Columns => {} });  
+        my $last_updated_wiki = $self->c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE deleted_fg = 0 AND wiki_group_id = ? ORDER BY updated_at LIMIT 1},{ Columns => {} },$wiki->{wiki_group_id});  
         
         $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ? WHERE id = ?}, {}, 
             ( $last_updated_wiki ? $last_updated_wiki->{id} : 0 ), 
