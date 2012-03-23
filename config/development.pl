@@ -31,5 +31,8 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
         'User::Attribute::Group' => {
             'storage' => 'MySQL',
         },
+        'Wiki::Group::Attribute::User::Group' => {
+            'storage' => 'MySQL',
+        },
     },
 };
