@@ -5,7 +5,7 @@ use Carp ();
 use Try::Tiny;
 
 sub show {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     my $stash = {};
 
@@ -17,7 +17,7 @@ sub show {
 };
 
 sub delete {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
     
     unless( $c->req->param('wiki_id') ) {
         $c->redirect('/');
@@ -40,7 +40,7 @@ sub delete {
 };
 
 sub edit {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     unless( $c->req->param('wiki_id') ) {
         $c->redirect('/');
@@ -72,7 +72,7 @@ sub edit {
 };
 
 sub add {
-    my ($c) = @_;
+    my ($class,$c,$p) = @_;
 
     unless( $c->req->param('wiki_group_id') ) {
         $c->redirect('/');
