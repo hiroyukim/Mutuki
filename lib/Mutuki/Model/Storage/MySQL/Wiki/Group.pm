@@ -6,6 +6,17 @@ use Carp ();
 use Try::Tiny;
 use Smart::Args;
 
+sub list_with_pager {
+    args my $self,
+         my $rows          => { isa => 'Int', optional => 1, default => 10 },
+         my $page          => { isa => 'Int', optional => 1, default => 1  };
+
+    $self->c->dbh->selectall_arrayref(q{SELECT * FROM wiki_group WHERE deleted_fg = 0 ORDER BY id DESC LIMIT ?,?},{ Columns => {} },
+        ( ($page - 1) * $rows),
+        $rows,
+    );
+}
+
 sub single {
     args my $self,
          my $wiki_group_id => 'Int';
