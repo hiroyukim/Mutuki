@@ -1,0 +1,18 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<div>
+    [% user_group.name %]が[% wiki_group.title %]での権限が以下のようになりました。
+</div>
+
+<table>
+    <tr>
+        <th>読み込み権限</th>
+        <th>書き込み権限</th>
+    </tr>
+    <tr>
+        <td>[% IF wiki_group_attribute_user_group.read_fg  %]有[% ELSE %]無[% END %]</td>
+        <td>[% IF wiki_group_attribute_user_group.write_fg %]有[% ELSE %]無[% END %]</td>
+    </tr>
+</table>
+
+[% END %]
