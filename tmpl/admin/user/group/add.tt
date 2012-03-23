@@ -1,0 +1,12 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<h2>ユーザーグループを追加</h2>
+
+<div>
+    <form method="POST" action="/admin/user/group/add">
+        <input type="text" name="name" /><br />
+        <input type="submit" value="submit" />
+    </form>
+</div>
+
+[% END %]

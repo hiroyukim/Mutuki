@@ -1,0 +1,15 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<div>
+    <form method="POST" action="/admin/user/attribute/group/add">
+        <input type="hidden" name="user_group_id" value="[% user_group.id %]" />
+        <div>
+        [% FOR user IN users %]
+            <input type="checkbox" name="user_id" value="[% user.id %]" />[% user.name %]/
+        [% END %]
+        </div>
+        <input type="submit" value="submit" />
+    </form>
+</div>
+
+[% END %]

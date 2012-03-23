@@ -1,0 +1,26 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<h2>ユーザー一覧</h2>
+
+<div>
+    <a href="/admin/user/add">追加</a>
+</div>
+
+[% IF users && users.size() > 0 %]
+    <table>
+        <tr>
+            <th>名前</th>
+            <th>生成日</th>
+            <th>削除</th>
+        </tr>      
+    [% FOR user IN users %]
+        <tr>
+            <td>[% user.name %]</td>
+            <td>[% user.created_at %]</td>
+            <td><a href="/admin/user/delete?user_id=[% user.id %]">x</a></td>
+        </tr>
+    [% END %]
+    </table>
+[% END %]
+
+[% END %]

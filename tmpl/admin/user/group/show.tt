@@ -1,0 +1,31 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<h2>[% user_group.name %]管理画面</h2>
+
+<div>
+    <a href="/admin/user/attribute/group/add?user_group_id=[% user_group.id %]">[% user_group.name %]へユーザー追加</a>
+</div>
+
+
+[% IF user_attribute_groups && user_attribute_groups.size() > 0 %]
+    <div>
+        [% user_attribute_groups.size() %]人
+    </div>
+    <table>
+        <tr>
+            <th>名前</th>
+            <th>生成日</th>
+            <th>削除</th>
+        </tr>
+    [% FOR user_attribute_group IN user_attribute_groups %]
+        [% SET user = user_by_user_id(user_attribute_group.user_id) %]
+        <tr>
+            <td><a href="/admin/user/show?user_id=[% user.id %]">[% user.name %]</a></td>
+            <td>[% user.created_at %]</td> 
+            <td><a href="/admin/user/group/delete?user_group_id=[% user_group.id %]">x</a></td>
+        </tr>
+    [% END %]
+    </table>
+[% END %]
+
+[% END %]

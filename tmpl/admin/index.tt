@@ -1,0 +1,4 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+
+[% END %]

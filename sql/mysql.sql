@@ -53,3 +53,34 @@ CREATE TABLE wiki_group_history (
   PRIMARY KEY (`id`),
   INDEX wiki_group_id (wiki_group_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+CREATE TABLE user (
+  id             int(10) unsigned NOT NULL auto_increment,
+  name           varchar(255) NOT NULL,
+  deleted_fg     tinyint(1) NOT NULL default '0',
+  created_at   datetime         NOT NULL,
+  updated_at   TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX deleted_fg (deleted_fg)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+CREATE TABLE user_attribute_group (
+  id             int(10) unsigned NOT NULL auto_increment,
+  user_id        int(10) unsigned NOT NULL, 
+  user_group_id  int(10) unsigned NOT NULL, 
+  created_at   datetime         NOT NULL,
+  updated_at   TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX user_group_id ( user_group_id ),
+  UNIQUE user_id_user_group_id(user_id,user_group_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
+
+CREATE TABLE user_group (
+  id             int(10) unsigned NOT NULL auto_increment,
+  name           varchar(255) NOT NULL,
+  deleted_fg     tinyint(1) NOT NULL default '0',
+  created_at   datetime         NOT NULL,
+  updated_at   TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX deleted_fg (deleted_fg)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
