@@ -1,0 +1,20 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<h2>Wiki::Group管理画面</h2>
+
+[% IF wiki_groups && wiki_groups.size() > 0 %]
+    <table>
+        <tr>
+            <th>名前</th>
+            <th>生成時</th>
+        </tr>
+    [% FOR wiki_group IN wiki_groups %]
+        <tr>
+            <td><a href="/admin/wiki/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a></td>
+            <td>[% wiki_group.created_at %]</td>
+        </tr>
+    [% END %]
+    </table>
+[% END %]
+
+[% END %]

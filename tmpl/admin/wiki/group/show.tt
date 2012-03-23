@@ -1,0 +1,45 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<h2>WikiGroup「[% wiki_group.title %]」管理画面</h2>
+
+[% IF user_groups && user_groups.size() > 0 %]
+    <table>
+        <tr>
+            <th>グループ名前</th>
+            <th>生成時</th>
+            <th>読み込み権限</th>
+            <th>書き込み権限</th>
+            <th>更新</th>
+        </tr>
+    [% FOR user_group IN user_groups %]
+        [% SET wiki_group_attribute_user_group = get_wiki_group_attribute_user_group(wiki_group.id,user_group.id) %]
+        <tr>
+            <form method="POST" action="/admin/wiki/group/attribute/user/group/edit">
+                <td><a href="/admin/user/group/show?user_group_id=[% user_group.id %]">[% user_group.name %]</a></td>
+                <td>[% user_group.created_at %]</td>
+                <td>
+                    [% IF wiki_group_attribute_user_group && wiki_group_attribute_user_group.read_fg %]
+                        <input type="checkbox" name="read_fg" value="1" checked /> 
+                    [% ELSE %]
+                        <input type="checkbox" name="read_fg" value="1"  /> 
+                    [% END %]
+                </td>
+                <td>
+                    [% IF wiki_group_attribute_user_group && wiki_group_attribute_user_group.write_fg %]
+                        <input type="checkbox" name="write_fg" value="1" checked /> 
+                    [% ELSE %]
+                        <input type="checkbox" name="write_fg" value="1"  /> 
+                    [% END %]
+                </td>
+                <td>
+                    <input type="hidden" name="wiki_group_id" value="[% wiki_group.id %]" />
+                    <input type="hidden" name="user_group_id" value="[% user_group.id %]" />
+                    <input type="submit" value="更新" />
+                </td>
+            </form>
+        </tr>
+    [% END %]
+    </table>
+[% END %]
+
+[% END %]
