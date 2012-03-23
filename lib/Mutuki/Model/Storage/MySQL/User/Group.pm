@@ -6,6 +6,13 @@ use Carp ();
 use Try::Tiny;
 use Smart::Args;
 
+sub list {
+    my $self = shift;
+
+    $self->c->dbh->selectall_arrayref(q{SELECT * FROM user_group WHERE deleted_fg = 0 ORDER BY id DESC},{ Columns => {} });
+}
+
+
 sub list_with_pager {
     args my $self,
          my $rows          => { isa => 'Int', optional => 1, default => 10 },
