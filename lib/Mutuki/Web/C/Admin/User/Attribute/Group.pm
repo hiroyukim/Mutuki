@@ -35,11 +35,10 @@ sub add {
     my @params = qw/user_id user_group_id/;
 
     if( $c->req->method eq 'POST' ) {
-        use Data::Dumper;
-        warn Dumper $c->req->param('user_id');
         if( @params == ( grep{ $c->req->param($_) } @params ) ) {
             $c->model('User::Attribute::Group')->add({
-                map { $_ => $c->req->param($_) } @params
+                user_id => [$c->req->param('user_id')],
+                user_group_id => $c->req->param('user_group_id'),
             });
         }
         return $c->redirect('/admin/user/group/');
