@@ -89,7 +89,7 @@ sub edit {
                 body          => $c->req->param('body')  || undef,
             });
         }
-        return $c->redirect('/group/show',{ wiki_group_id => $wiki_group->{id} });
+        return $c->redirect('/wiki/group/show',{ wiki_group_id => $wiki_group->{id} });
     }
 
     $c->fillin_form($wiki_group);
