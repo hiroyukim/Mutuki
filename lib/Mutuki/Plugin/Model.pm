@@ -11,16 +11,12 @@ sub init {
 
 sub _model {
     my ($c, $schema) = @_;
-    warn $c;
-warn $schema;
-use Data::Dumper;
-warn Dumper $c->config;
 
     my $module  = 'Mutuki::Model::Storage::' .  $c->config->{model}->{$schema}->{storage} . '::' . $schema;   
 
     Class::Load::load_class($module);
 
-    return $module->new();
+    return $module->new($c);
 }
 
 1;
