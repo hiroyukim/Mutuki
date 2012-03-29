@@ -5,6 +5,7 @@ use parent 'Mutuki::Model::Storage::MySQL::Base';
 use Carp ();
 use Try::Tiny;
 use Smart::Args;
+use Mutuki::Crypt::Factory;
 
 sub list {
     my $self = shift;
@@ -47,7 +48,8 @@ sub single {
 
 sub add {
     args my $self,
-         my $name          => 'Str' ;
+         my $name   => 'Str' ,
+         my $passwd => 'Str' ;
 
     $self->c->dbh->do(q{INSERT INTO user (name,created_at) VALUES (?,NOW())}, {}, 
         $name,
