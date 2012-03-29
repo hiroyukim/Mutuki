@@ -1,0 +1,17 @@
+[% WRAPPER 'include/layout_admin.tt' %]
+
+<h2>UserGropuからの削除</h2>
+
+<div>
+本当に「[% user.name %]」を「[% user_group.name %]」から削除しますか？
+</div>
+
+<div>
+    <form method="POST" action="/admin/user/attribute/group/delete">
+        <input type="hidden" name="user_id"       value="[% user.id %]" />
+        <input type="hidden" name="user_group_id" value="[% user_group.id %]" />
+        <input type="submit" value="submit" />
+    </form>
+</div>
+
+[% END %]
