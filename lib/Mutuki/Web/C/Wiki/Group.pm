@@ -53,17 +53,6 @@ sub delete {
     }); 
 };
 
-sub add {
-    my ($class,$c,$p) = @_;
-
-    if( $c->req->param('title')  ) {
-        $c->model('Wiki::Group')->add({
-            title => $c->req->param('title'),
-        });
-    }
-    $c->redirect('/');
-};
-
 sub edit {
     my ($class,$c,$p) = @_;
 
