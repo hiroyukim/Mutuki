@@ -34,9 +34,9 @@
     <h1><a href="/admin/">Mutuki Wiki管理画面</a></h1>
     <div>
         [<a href="/">TOP</a>]
-        [<a href="/admin/user/group/">ユーザーグループ一覧</a>]
-        [<a href="/admin/user/">ユーザー一覧</a>]
-        [<a href="/admin/wiki/group/">Wiki一覧</a>]
+        [<a href="/admin/user/group/">ユーザーグループ</a>]
+        [<a href="/admin/user/">ユーザー</a>]
+        [<a href="/admin/wiki/group/">Wikiグループ</a>]
     </div>
     <div class="container">
         <div id="main">
