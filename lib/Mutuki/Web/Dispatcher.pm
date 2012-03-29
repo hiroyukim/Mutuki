@@ -31,6 +31,7 @@ connect '/admin/user/group/edit'       => { controller => 'Admin::User::Group', 
 connect '/admin/user/group/delete'     => { controller => 'Admin::User::Group', action => 'delete' };
 
 connect '/admin/user/attribute/group/add'   => { controller => 'Admin::User::Attribute::Group', action => 'add'    };
+connect '/admin/user/attribute/group/delete'   => { controller => 'Admin::User::Attribute::Group', action => 'delete'    };
 
 connect '/admin/wiki/group/'           => { controller => 'Admin::Wiki::Group', action => 'index'  };
 connect '/admin/wiki/group/show'       => { controller => 'Admin::Wiki::Group', action => 'show'   };
