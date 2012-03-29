@@ -5,7 +5,7 @@
 [% IF user_groups && user_groups.size() > 0 %]
     <table>
         <tr>
-            <th>グループ名前</th>
+            <th>ユーザーグループ</th>
             <th>生成時</th>
             <th>読み込み権限</th>
             <th>書き込み権限</th>
