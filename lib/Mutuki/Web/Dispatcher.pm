@@ -4,6 +4,8 @@ use warnings;
 use Amon2::Web::Dispatcher::RouterSimple;
 use Mutuki::Plugin::Web::Dispatcher::AutoLoad;
 
+connect '/login/'                => { controller => 'Login',       action => 'index'  };
+
 connect '/'                      => { controller => 'Root',        action => 'index'  };
 connect '/wiki/group/show'       => { controller => 'Wiki::Group', action => 'show'   };
 connect '/wiki/group/edit'       => { controller => 'Wiki::Group', action => 'edit'   };
