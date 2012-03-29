@@ -4,25 +4,38 @@ use warnings;
 
 sub delete {
     my ($class,$c,$p) = @_;
-    
-    unless( $c->req->param('user_id') ) {
+   
+    my @params = qw/user_id user_group_id/;
+
+    unless( @params == ( grep { defined $c->req->param($_) } @params ) ) { 
         return $c->redirect('/');
     }
-
+    
     my $user = $c->model('User')->single({ user_id => $c->req->param('user_id') });
 
     unless( $user ) {
         return $c->redirect('/');
     }
+    
+    my $user_group = $c->model('User::Group')->single({ user_group_id => $c->req->param('user_group_id') });
 
-    if( $c->req->method eq 'POST'  ) {
-        $c->model('User')->delete({
-            user_id => $user->{id},
-        });
+    unless( $user_group ) {
         return $c->redirect('/');
     }
 
-    $c->render('/admin/user/delete.tt',{ user => $user }); 
+    if( $c->req->method eq 'POST'  ) {
+        $c->model('User::Attribute::Group')->delete({
+            map { $_ => $c->req->param($_) } @params
+        });
+        return $c->redirect('/admin/user/group/show',{
+            user_group_id => $c->req->param('user_group_id'),        
+        });
+    }
+
+    $c->render('/admin/user/attribute/group/delete.tt',{ 
+        user       => $user, 
+        user_group => $user_group,
+    }); 
 };
 
 sub add {
