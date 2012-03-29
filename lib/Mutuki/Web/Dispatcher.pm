@@ -6,9 +6,7 @@ use Mutuki::Plugin::Web::Dispatcher::AutoLoad;
 
 connect '/'                      => { controller => 'Root',        action => 'index'  };
 connect '/wiki/group/show'       => { controller => 'Wiki::Group', action => 'show'   };
-connect '/wiki/group/add'        => { controller => 'Wiki::Group', action => 'add'    };
 connect '/wiki/group/edit'       => { controller => 'Wiki::Group', action => 'edit'   };
-connect '/wiki/group/delete'     => { controller => 'Wiki::Group', action => 'delete' };
 
 connect '/wiki/show'       => { controller => 'Wiki', action => 'show'   };
 connect '/wiki/add'        => { controller => 'Wiki', action => 'add'    };
@@ -35,6 +33,7 @@ connect '/admin/user/attribute/group/delete'   => { controller => 'Admin::User::
 
 connect '/admin/wiki/group/'           => { controller => 'Admin::Wiki::Group', action => 'index'  };
 connect '/admin/wiki/group/show'       => { controller => 'Admin::Wiki::Group', action => 'show'   };
+connect '/admin/wiki/group/add'       => { controller => 'Admin::Wiki::Group', action => 'add'   };
 
 connect '/admin/wiki/group/attribute/user/group/edit'        => { controller => 'Admin::Wiki::Group::Attribute::User::Group', action => 'edit'         };
 connect '/admin/wiki/group/attribute/user/group/edit_thanks' => { controller => 'Admin::Wiki::Group::Attribute::User::Group', action => 'edit_thanks'  };
