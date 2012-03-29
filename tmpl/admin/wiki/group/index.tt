@@ -1,6 +1,9 @@
 [% WRAPPER 'include/layout_admin.tt' %]
 
 <h2>Wiki::Group管理画面</h2>
+<div>
+    <a href="/admin/wiki/group/add">wikigroupを追加する</a>
+</div>
 
 [% IF wiki_groups && wiki_groups.size() > 0 %]
     <table>
