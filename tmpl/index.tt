@@ -1,28 +1,30 @@
 [% WRAPPER 'include/layout.tt' %]
 
-<div>
-    <form method="POST" action="/wiki/group/add">
-        グループを追加:
-        <input type="text" name="title" />
-        <input type="submit" value="submit" />
-    </form>
-</div>
-
 [% IF wiki_groups && wiki_groups.size() > 0 %]
-    <ul>
-    [% FOR wiki_group IN wiki_groups %]
-        <li>
-            <a href="/wiki/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a>
-            [<a href="/wiki/group/delete?wiki_group_id=[% wiki_group.id %]">x</a>]
-            [% IF wiki_group.last_updated_wiki_id %]
-                [% SET wiki = selectrow_hashref_wiki(wiki_group.last_updated_wiki_id) %]
-                [[% wiki.title %]([% wiki.updated_at %])]
-            [% ELSE %]
-                [ - ]
-            [% END %]
-        </li>
-    [% END %]
-    </ul>
+    <div>
+        <h3>Wiki Group</h3>
+        <table>
+            <tr>
+                <th>グループ名</th>
+                <th>最新の更新Wiki</th>
+            </tr>      
+        [% FOR wiki_group IN wiki_groups %]
+            <tr>
+                <td><a href="/wiki/group/show?wiki_group_id=[% wiki_group.id %]">[% wiki_group.title %]</a></td>
+                <td>
+                    [% IF wiki_group.last_updated_wiki_id %]
+                        [% SET wiki = selectrow_hashref_wiki(wiki_group.last_updated_wiki_id) %]
+                        [[% wiki.title %]([% wiki.updated_at %])]
+                    [% ELSE %]
+                        [ - ]
+                    [% END %]
+                </td>
+            </tr>
+        [% END %]
+        </table>
+    </div>
+[% ELSE %]
+    <div>まだWikiGroupはありません<div/>
 [% END %]
 
 [% END %]
