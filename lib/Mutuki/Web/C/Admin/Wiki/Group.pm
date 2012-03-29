@@ -92,18 +92,18 @@ sub edit {
 sub add {
     my ($class,$c,$p) = @_;
 
-    my @params = qw/name/;
+    my @params = qw/title/;
 
     if( $c->req->method eq 'POST' ) {
-        if( @params == ( grep{ $c->req->param($_) } @params ) ) {
-            $c->model('User')->add({
-                map { $_ => $c->req->param($_) } @params
+        if( @params == ( grep{ defined $c->req->param($_) } @params ) ) {
+            $c->model('Wiki::Group')->add({
+                map { $_ => $c->req->param($_) } @params, 
             });
         }
-        return $c->redirect('/admin/user/');
+        return $c->redirect('/admin/wiki/group/');
     }
     
-    $c->render('/admin/user/add.tt'); 
+    $c->render('/admin/wiki/group/add.tt'); 
 };
 
 1;
