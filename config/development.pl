@@ -39,12 +39,15 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
         message_data => {
             message  => {},
             param    => {
-                name    => '名前',
+                name    => '名前(id)',
+                nickname => 'ニックネーム',
                 passwd1 => 'パスワード', 
                 passwd2 => 'パスワード(確認)', 
                 passwds => 'パスワード',
+                same_name => '同じ名前(id)',
             },
             function => {
+                'exists'      => '[_1]はすでに存在します。',
                 'length'      => '[_1]の長さが適切では有りません。',
                 ascii         => '[_1]は半角英数のみです。',
                 not_null      => '[_1]は必須入力です',
