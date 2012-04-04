@@ -35,4 +35,20 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
             'storage' => 'MySQL',
         },
     },
+    'Validator::Lite' => {
+        message_data => {
+            message  => {},
+            param    => {
+                name    => '名前',
+                passwd1 => 'パスワード', 
+                passwd2 => 'パスワード(確認)', 
+                passwds => 'パスワード',
+            },
+            function => {
+                ascii         => '[_1]は半角英数のみです。',
+                not_null      => '[_1]は必須入力です',
+                duplication   => '[_1]の入力を間違えています。',
+            },
+        },
+    },
 };
