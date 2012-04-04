@@ -51,8 +51,9 @@ sub add {
          my $name   => 'Str' ,
          my $passwd => 'Str' ;
 
-    $self->c->dbh->do(q{INSERT INTO user (name,created_at) VALUES (?,NOW())}, {}, 
+    $self->c->dbh->do(q{INSERT INTO user (name,passwd,created_at) VALUES (?,?,NOW())}, {}, 
         $name,
+        $self->crypt->encode($passwd),
     ); 
 }
 
