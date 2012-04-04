@@ -52,6 +52,7 @@ __PACKAGE__->load_plugins(
     'Web::FillInFormLite',
     'Web::CSRFDefender',
     '+Mutuki::Plugin::Model',
+    '+Mutuki::Plugin::Validator',
 );
 
 # for your security
