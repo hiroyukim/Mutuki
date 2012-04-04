@@ -2,12 +2,10 @@ package Mutuki::Crypt::Default;
 use strict;
 use warnings;
 use parent 'Mutuki::Crypt::Base';
-use Smart::Args;
 use Crypt::SaltedHash;
 
 sub encode {
-    args my $class  => 'ClassName',
-         my $secret => 'Str';
+    my ($class,$secret) = @_;
     
     my $crypt = Crypt::SaltedHash->new();
     $crypt->add($secret);
@@ -16,9 +14,7 @@ sub encode {
 }
 
 sub validate {
-    args my $class  => 'ClassName',
-         my $secret => 'Str',
-         my $salted => 'Str';
+    my ($class,$secret,$salted) = @_;
 
      Crypt::SaltedHash->validate( $salted, $secret );
 }
