@@ -9,13 +9,15 @@
 [% IF users && users.size() > 0 %]
     <table>
         <tr>
-            <th>名前</th>
+            <th>名前(id)</th>
+            <th>ニックネーム</th>
             <th>生成日</th>
             <th>削除</th>
         </tr>      
     [% FOR user IN users %]
         <tr>
             <td>[% user.name %]</td>
+            <td>[% user.nickname %]</td>
             <td>[% user.created_at %]</td>
             <td><a href="/admin/user/delete?user_id=[% user.id %]">x</a></td>
         </tr>

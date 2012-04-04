@@ -6,8 +6,10 @@
 
 <div>
     <form method="POST" action="/admin/user/add">
-        名前<br />
+        名前(id)<br />
         <input type="text" name="name" /><br />
+        ニックネーム<br />
+        <input type="text" name="nickname" /><br />
         パスワード(4-30 && ascii)<br />
         <input type="password" name="passwd1" /><br />
         パスワード(確認)<br/>
