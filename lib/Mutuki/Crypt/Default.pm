@@ -14,7 +14,7 @@ sub encode {
 }
 
 sub validate {
-    my ($class,$secret,$salted) = @_;
+    my ($class,$salted,$secret) = @_;
 
      Crypt::SaltedHash->validate( $salted, $secret );
 }
