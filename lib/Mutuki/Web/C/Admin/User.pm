@@ -43,7 +43,7 @@ sub delete {
         $c->model('User')->delete({
             user_id => $user->{id},
         });
-        return $c->redirect('/');
+        return $c->redirect('/admin/user/');
     }
 
     $c->render('/admin/user/delete.tt',{ user => $user }); 
