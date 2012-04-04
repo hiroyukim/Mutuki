@@ -95,8 +95,9 @@ sub add {
         }
 
         $c->model('User')->add({
-            name   => $c->req->param('name'),
-            passwd => $c->req->param('passwd1'),
+            name     => $c->req->param('name'),
+            nickname => $c->req->param('nickname'),
+            passwd   => $c->req->param('passwd1'),
         });
         
         return $c->redirect('/admin/user/');
