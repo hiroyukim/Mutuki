@@ -1,4 +1,4 @@
-package Mutuki::Login;
+package Mutuki::Web::C::Login;
 use strict;
 use warnings;
 
@@ -11,24 +11,20 @@ sub index {
 sub do {
     my ($class,$c,$p) = @_;
 
-    my @params = qw/user_id passwd/;
-
-    unless( $c->req->param('wiki_id') ) {
-        $c->redirect('/');
-    }
-
-    my $wiki = $c->model('Wiki')->single({ wiki_id => $c->req->param('wiki_id') });
-
-    unless( $wiki ) {
-        $c->redirect('/');
-    }
-
     if( $c->req->method eq 'POST'  ) {
-        $c->model('Wiki')->delete({
-            wiki_id => $wiki->{id},
-        });
-        return $c->redirect('/');
+        my $validator = $c->validator('User')->login();
+
+        if( $validator->has_error() ) {
+            $c->fillin_form( $validator->to_hash );
+            return $c->render('/login/index.tt',{
+                validator => $validator->validator(), 
+            }); 
+        }
+
+        $c->session->set( user => $c->model('User')->single_by_name_passwd($validator->to_hash) ); 
     }
+    
+    return $c->redirect('/');
 }
 
 1;
