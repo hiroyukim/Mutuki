@@ -1,0 +1,5 @@
+[% IF validator && ( validator.has_error() == 1 ) %]
+    [% FOR msg IN validator.get_error_messages() %]
+        <span style="color:red;">[% msg %]</span><br />
+    [% END %]
+[% END %]

@@ -2,9 +2,16 @@
 
 <h2>ユーザーを追加</h2>
 
+[% INCLUDE 'include/validator.tt' WITH validator=validator %]
+
 <div>
     <form method="POST" action="/admin/user/add">
+        名前<br />
         <input type="text" name="name" /><br />
+        パスワード(4-30 && ascii)<br />
+        <input type="password" name="passwd1" /><br />
+        パスワード(確認)<br/>
+        <input type="password" name="passwd2" /><br />
         <input type="submit" value="submit" />
     </form>
 </div>
