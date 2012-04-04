@@ -46,13 +46,44 @@ sub single {
     );
 }
 
-sub add {
+sub single_by_name {
+    args my $self,
+         my $name => 'Str';
+
+    return $self->c->dbh->selectrow_hashref(q{SELECT * FROM user WHERE name = ?},{ Columns => {} },
+        $name,
+    );
+}
+
+sub single_by_name_passwd {
     my ($self,$args) = @_;
+    #FIXME  passwdが数値のみの場合Strだと通らないあとで対応する　
     my $name   = $args->{name}   or die Carp::confess('name');
     my $passwd = $args->{passwd} or die Carp::confess('passwd');
 
-    $self->c->dbh->do(q{INSERT INTO user (name,passwd,created_at) VALUES (?,?,NOW())}, {}, 
+    my $user = $self->single_by_name({ name => $name }); 
+
+    unless( $user ) {
+        return;
+    }
+
+    if( not $self->crypt->validate($user->{passwd},$passwd) ) { 
+        return $user;
+    }
+    else {
+        return; 
+    }
+}
+
+sub add {
+    my ($self,$args) = @_;
+    my $name     = $args->{name}     or die Carp::confess('name');
+    my $nickname = $args->{nickname} or die Carp::confess('nickname');
+    my $passwd = $args->{passwd}     or die Carp::confess('passwd');
+
+    $self->c->dbh->do(q{INSERT INTO user (name,nickname,passwd,created_at) VALUES (?,?,?,NOW())}, {}, 
         $name,
+        $nickname,
         $self->crypt->encode($passwd),
     ); 
 }
