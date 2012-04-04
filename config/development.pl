@@ -45,10 +45,12 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
                 passwds => 'パスワード',
             },
             function => {
+                'length'      => '[_1]の長さが適切では有りません。',
                 ascii         => '[_1]は半角英数のみです。',
                 not_null      => '[_1]は必須入力です',
-                duplication   => '[_1]の入力を間違えています。',
+                duplication   => '[_1]の入力が一致していません。',
             },
         },
     },
+    Crypt => 'Default',
 };
