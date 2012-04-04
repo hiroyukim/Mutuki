@@ -20,6 +20,7 @@ WriteMakefile(
         'Text::Markdown'                  => '1.000031',
         'Try::Tiny'                       => '0.11',
         'Crypt::SaltedHash'               => '0.05',
+        'FormValidator::Lite'             => '0.29',
     },
     MIN_PERL_VERSION => '5.008001',
     (-d 'xt' and $ENV{AUTOMATED_TESTING} || $ENV{RELEASE_TESTING}) ? (
