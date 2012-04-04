@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Smart::Args;
 use parent 'Class::Accessor::Fast';
+use Mutuki::Model::Plugin::Crypt;
 
 __PACKAGE__->mk_accessors(qw/c/);
 
