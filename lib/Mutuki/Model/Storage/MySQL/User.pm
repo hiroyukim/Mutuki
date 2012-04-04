@@ -47,9 +47,9 @@ sub single {
 }
 
 sub add {
-    args my $self,
-         my $name   => 'Str' ,
-         my $passwd => 'Str' ;
+    my ($self,$args) = @_;
+    my $name   = $args->{name}   or die Carp::confess('name');
+    my $passwd = $args->{passwd} or die Carp::confess('passwd');
 
     $self->c->dbh->do(q{INSERT INTO user (name,passwd,created_at) VALUES (?,?,NOW())}, {}, 
         $name,
