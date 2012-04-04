@@ -34,7 +34,6 @@ Mutuki::Web::C::Wiki
 Mutuki::Web::Dispatcher
 Mutuki::Web
 Mutuki
-
 );
 
 done_testing;
