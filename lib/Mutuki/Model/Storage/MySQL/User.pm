@@ -70,9 +70,31 @@ sub delete {
         Carp::croak($user_id);
     }
 
-    $self->c->dbh->do(q{UPDATE user SET deleted_fg = 1 WHERE id = ?}, {}, 
-        $user_id,
-    );      
+    $self->c->dbh->begin_work;
+    try {
+        $self->c->dbh->do(q{UPDATE user SET deleted_fg = 1 WHERE id = ?}, {}, 
+            $user_id,
+        );      
+
+        # User::Attribute::Group からも削除する必要がある
+        # FIXME storeage関係なくまとめて消せる奴が必要
+        # FIXME Transactionもそちら用にまとめる必要がある
+        if( my $user_attribute_groups = $self->c->model('User::Attribute::Group')->list_by_user_id({ user_id => $user_id }) ) {
+            for my $user_attribute_group ( @{$user_attribute_groups} ) {
+                $self->c->model('User::Attribute::Group')->delete({
+                    user_id       => $user_attribute_group->{user_id},
+                    user_group_id => $user_attribute_group->{user_group_id},
+                });
+            }
+        }
+    
+        $self->c->dbh->commit();
+    }
+    catch {
+        my $err = shift;
+        $self->c->dbh->rollback();
+        Carp::croak($err);
+    };
 }
 
 sub update {
