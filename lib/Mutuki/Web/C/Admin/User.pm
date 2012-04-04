@@ -84,14 +84,21 @@ sub edit {
 sub add {
     my ($class,$c,$p) = @_;
 
-    my @params = qw/name/;
-
     if( $c->req->method eq 'POST' ) {
-        if( @params == ( grep{ $c->req->param($_) } @params ) ) {
-            $c->model('User')->add({
-                map { $_ => $c->req->param($_) } @params
-            });
+        my $validator = $c->validator('User')->insert();
+
+        if( $validator->has_error() ) {
+            $c->fillin_form( $validator->to_hash );
+            return $c->render('/admin/user/add.tt',{
+                validator => $validator->validator(), 
+            }); 
         }
+
+        $c->model('User')->add({
+            name   => $c->req->param('name'),
+            passwd => $c->req->param('passwd1'),
+        });
+        
         return $c->redirect('/admin/user/');
     }
     
