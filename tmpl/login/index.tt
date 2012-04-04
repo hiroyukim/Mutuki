@@ -1,0 +1,17 @@
+[% WRAPPER 'include/layout.tt' %]
+
+<h2>ログイン</h2>
+
+[% INCLUDE 'include/validator.tt' WITH validator=validator %]
+
+<div>
+    <form method="POST" action="/login/do">
+        名前(id)<br />
+        <input type="text" name="name" /><br />
+        パスワード<br />
+        <input type="password" name="passwd" /><br />
+        <input type="submit" value="login" />
+    </form>
+</div>
+
+[% END %]
