@@ -16,7 +16,7 @@ sub _validator {
 
     Class::Load::load_class($module);
 
-    return $module->new($c->req);
+    return $module->new($c);
 }
 
 1;

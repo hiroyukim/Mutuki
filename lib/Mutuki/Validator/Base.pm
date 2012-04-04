@@ -6,15 +6,15 @@ use Mutuki;
 use Smart::Args;
 use FormValidator::Lite;
 
-__PACKAGE__->mk_accessors(qw/rules req validator/);
+__PACKAGE__->mk_accessors(qw/rules c validator/);
 
 sub new   { 
     args_pos my $class => 'ClassName',
-             my $req   => 'Object';
+             my $c     => 'Object';
 
     bless {
-        req => $req,
-    }, $_[0]  
+        c => $c,
+    }, $class; 
 }
 
 sub check {
@@ -23,7 +23,7 @@ sub check {
     
     $self->rules($rules);
 
-    $self->validator( FormValidator::Lite->new($self->req) );
+    $self->validator( FormValidator::Lite->new($self->c->req) );
     $self->validator->set_message_data(Mutuki->config->{'Validator::Lite'}->{'message_data'}); 
 
     $self->validator->check(@{$rules});
@@ -41,7 +41,7 @@ sub to_hash {
 
     +{
         map { 
-            $_ => $self->req->param($_) ||'',
+            $_ => $self->c->req->param($_) ||'',
         } grep { not ref $_ } keys %hash,
     };
 }
