@@ -5,6 +5,7 @@ use Amon2::Web::Dispatcher::RouterSimple;
 use Mutuki::Plugin::Web::Dispatcher::AutoLoad;
 
 connect '/login/'                => { controller => 'Login',       action => 'index'  };
+connect '/login/do'              => { controller => 'Login',       action => 'do'     };
 
 connect '/'                      => { controller => 'Root',        action => 'index'  };
 connect '/wiki/group/show'       => { controller => 'Wiki::Group', action => 'show'   };
