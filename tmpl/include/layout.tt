@@ -30,7 +30,21 @@
     </script>
 </head>
 <body[% IF bodyID %] id="[% bodyID %]"[% END %] onload="prettyPrint();">
-    <h1><a href="/">Mutuki Wiki</a></h1>
+    <div>
+        <div align="left">
+            <h1><a href="/">Mutuki Wiki</a></h1>
+        </div>
+        <div align="right">
+            [% IF session.get('user') %]
+                <form method="POST" action="/logout/do">
+                    いらっしゃい「[% session.get('user').nickname %]」</a>
+                    <input type="submit" value="logout" />
+                </form>
+            [% ELSE %]
+                <a href="/login/">login</a>
+            [% END %]
+        </div>
+    </div>
     <div class="container">
         <div id="main">
             [% content %]
