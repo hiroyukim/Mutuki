@@ -59,4 +59,5 @@ my $basedir = File::Spec->rel2abs(File::Spec->catdir(dirname(__FILE__), '..'));
         },
     },
     Crypt => 'Default',
+    admin_group_id => 1,
 };
