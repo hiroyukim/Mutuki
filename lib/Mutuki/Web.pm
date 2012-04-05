@@ -64,6 +64,7 @@ __PACKAGE__->load_plugins(
     'Web::CSRFDefender',
     '+Mutuki::Plugin::Model',
     '+Mutuki::Plugin::Validator',
+    '+Mutuki::Plugin::Auth::Default',
 );
 
 # for your security
@@ -86,8 +87,7 @@ __PACKAGE__->add_trigger(
 __PACKAGE__->add_trigger(
     BEFORE_DISPATCH => sub {
         my ( $c ) = @_;
-
-
+        
         return;
     },
 );
