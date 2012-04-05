@@ -15,6 +15,10 @@ sub init {
             return $c->redirect('/login/');
         }
 
+        if( !$c->session->get('user') && $c->req->path_info =~ m!^/log(?:in|out)/.*$! ) {
+            return;
+        }
+
         my $user_attribute_groups = $c->model('User::Attribute::Group')->list_by_user_id({ user_id => $c->session->get('user')->{id} }); 
 
         # どこにも所属してないないならTOPへ(管理者へ連絡してね)
