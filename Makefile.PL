@@ -21,6 +21,7 @@ WriteMakefile(
         'Try::Tiny'                       => '0.11',
         'Crypt::SaltedHash'               => '0.05',
         'FormValidator::Lite'             => '0.29',
+        'Class/Method/Modifiers'          => '1.09',
     },
     MIN_PERL_VERSION => '5.008001',
     (-d 'xt' and $ENV{AUTOMATED_TESTING} || $ENV{RELEASE_TESTING}) ? (
