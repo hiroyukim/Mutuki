@@ -6,6 +6,18 @@ use parent qw/Mutuki Amon2::Web/;
 use File::Spec;
 use Text::Markdown;
 use Class::Load;
+use Class::Method::Modifiers qw/install_modifier/;
+
+install_modifier(__PACKAGE__, "around", "render", sub {
+    my ($orig, $c, $tmpl_path, $param) = @_;
+    $param ||= {};
+    unless( defined $param->{session} ) {
+        $param->{session} = $c->session;
+        warn $param->{session};
+    }
+
+    $orig->($c, $tmpl_path,$param);
+});
 
 # dispatcher
 use Mutuki::Web::Dispatcher;
@@ -71,10 +83,12 @@ __PACKAGE__->add_trigger(
     },
 );
 
+
 __PACKAGE__->add_trigger(
     BEFORE_DISPATCH => sub {
         my ( $c ) = @_;
-        # ...
+
+
         return;
     },
 );
