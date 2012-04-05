@@ -13,7 +13,6 @@ install_modifier(__PACKAGE__, "around", "render", sub {
     $param ||= {};
     unless( defined $param->{session} ) {
         $param->{session} = $c->session;
-        warn $param->{session};
     }
 
     $orig->($c, $tmpl_path,$param);
