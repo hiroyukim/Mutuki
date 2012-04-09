@@ -8,17 +8,19 @@ sub index {
     my ($rows,$page) = (10,$c->req->param('page')||1);
     my $stash = {};
 
-    $stash->{wiki_groups} = $c->dbh->selectall_arrayref(q{SELECT * FROM wiki_group WHERE deleted_fg = 0 ORDER BY updated_at DESC LIMIT ?,?},{ Columns => {} },
-        ( ($page - 1) * $rows),
-        $rows,
-    );
+    $stash->{wiki_groups} = $c->model('Wiki::Group')->list_with_pager({
+        rows => $rows,
+        page => $page,
+    });
 
-    $stash->{selectrow_hashref_wiki} = sub {
+    $stash->{model_wiki_single} = sub {
         my $wiki_id = shift or die 'wiki_id';
-
-        return $c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE id = ?},{ Columns => {} },
-            $wiki_id,
-        );
+        return $c->model('Wiki')->single({ wiki_id => $wiki_id });
+    };
+    
+    $stash->{model_user_single} = sub {
+        my $user_id = shift or die 'user_id';
+        return $c->model('User')->single({ user_id => $user_id });
     };
 
     $c->render('index.tt',$stash);

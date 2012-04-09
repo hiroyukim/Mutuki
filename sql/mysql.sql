@@ -12,6 +12,7 @@ CREATE TABLE wiki (
   id             int(10) unsigned NOT NULL auto_increment,
   title          varchar(255) NOT NULL,
   body           TEXT,
+  user_id        int(10) unsigned NOT NULL, 
   wiki_group_id  int(10) unsigned NOT NULL, 
   deleted_fg     tinyint(1) NOT NULL default '0',
   created_at   datetime         NOT NULL,
@@ -22,6 +23,7 @@ CREATE TABLE wiki (
 
 CREATE TABLE wiki_history (
   id             int(10) unsigned NOT NULL auto_increment,
+  user_id        int(10) unsigned NOT NULL, 
   wiki_id        int(10) unsigned NOT NULL, 
   title          varchar(255) NOT NULL,
   body           TEXT,
@@ -37,6 +39,7 @@ CREATE TABLE wiki_group (
   body           TEXT,
   deleted_fg     tinyint(1) NOT NULL default '0',
   last_updated_wiki_id  int(10) unsigned NOT NULL, 
+  last_updated_user_id  int(10) unsigned NOT NULL, 
   created_at   datetime         NOT NULL,
   updated_at   TIMESTAMP,
   PRIMARY KEY (`id`),

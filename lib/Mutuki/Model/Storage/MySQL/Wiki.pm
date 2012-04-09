@@ -31,32 +31,32 @@ sub single {
 sub add {
     args my $self,
          my $wiki_group_id => 'Int',
+         my $user_id       => 'Int',
          my $title         => 'Str' ,
          my $body          => 'Str' ;
 
-    if( $wiki_group_id && $title && $body ) {
-        $self->c->dbh->begin_work;
-        try {
-            $self->c->dbh->do(q{INSERT INTO wiki (title,body,wiki_group_id,created_at) VALUES (?,?,?,NOW())}, {}, 
-                $title,
-                $body,
-                $wiki_group_id,
-            ); 
+    $self->c->dbh->begin_work;
+    try {
+        $self->c->dbh->do(q{INSERT INTO wiki (title,body,user_id,wiki_group_id,created_at) VALUES (?,?,?,?,NOW())}, {}, 
+            $title,
+            $body,
+            $user_id,
+            $wiki_group_id,
+        ); 
 
-            my $last_insert_id = $self->c->dbh->selectrow_arrayref(q{SELECT LAST_INSERT_ID() FROM wiki});
+        my $last_insert_id = $self->c->dbh->selectrow_arrayref(q{SELECT LAST_INSERT_ID() FROM wiki});
 
-            $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ? WHERE id = ?}, {}, 
-                $last_insert_id->[0],$wiki_group_id,
-            ); 
-        
-            $self->c->dbh->commit();
-        }
-        catch {
-            my $err = shift;
-            $self->c->dbh->rollback();
-            Carp::croak($err);
-        };
+        $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ?, last_updated_user_id = ? WHERE id = ?}, {}, 
+            $last_insert_id->[0],$user_id,$wiki_group_id,
+        ); 
+    
+        $self->c->dbh->commit();
     }
+    catch {
+        my $err = shift;
+        $self->c->dbh->rollback();
+        Carp::croak($err);
+    };
 }
 
 sub delete {
@@ -82,8 +82,9 @@ sub delete {
         # wiki_group.last_updated_wiki_id を更新する必要がある
         my $last_updated_wiki = $self->c->dbh->selectrow_hashref(q{SELECT * FROM wiki WHERE deleted_fg = 0 AND wiki_group_id = ? ORDER BY updated_at LIMIT 1},{ Columns => {} },$wiki->{wiki_group_id});  
         
-        $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ? WHERE id = ?}, {}, 
-            ( $last_updated_wiki ? $last_updated_wiki->{id} : 0 ), 
+        $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ?,last_updated_user_id = ? WHERE id = ?}, {}, 
+            ( $last_updated_wiki ? $last_updated_wiki->{id}    : 0 ), 
+            ( $last_updated_wiki ? $last_updated_wiki->{user_} : 0 ), 
             $wiki->{wiki_group_id},
         ); 
 
@@ -98,6 +99,7 @@ sub delete {
 
 sub update {
     args my $self,
+         my $user_id => 'Int',
          my $wiki_id => 'Int',
          my $title   => { isa => 'Str', optional => 1 },
          my $body    => { isa => 'Str', optional => 1 };
@@ -114,14 +116,21 @@ sub update {
         $self->c->dbh->begin_work;
         try {
 
-            $self->c->dbh->do(q{INSERT INTO wiki_history (title,body,wiki_id,created_at) VALUES (?,?,?,?)}, {}, 
-                map { $wiki->{$_} } qw/title body id created_at/
+            $self->c->dbh->do(q{INSERT INTO wiki_history (title,body,user_id,wiki_id,created_at) VALUES (?,?,?,?,?)}, {}, 
+                map { $wiki->{$_} } qw/title body user_id id created_at/
             ); 
 
-            $self->c->dbh->do(q{UPDATE wiki SET title = ?, body = ? WHERE id = ?}, {}, 
+            $self->c->dbh->do(q{UPDATE wiki SET title = ?, body = ?, user_id = ? WHERE id = ?}, {}, 
                 $title || $wiki->{title},
                 $body  || $wiki->{body},
+                $user_id,
                 $wiki->{id},
+            ); 
+            
+            $self->c->dbh->do(q{UPDATE wiki_group SET last_updated_wiki_id = ?, last_updated_user_id = ? WHERE id = ?}, {}, 
+                $wiki->{id},
+                $user_id,
+                $wiki->{wiki_group_id},
             ); 
         
             $self->c->dbh->commit();

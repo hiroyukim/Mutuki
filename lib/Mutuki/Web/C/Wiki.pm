@@ -57,6 +57,7 @@ sub edit {
     if( $c->req->method eq 'POST' ) {
         if( grep { $c->req->param($_) } @params  ) {
             $c->model('Wiki')->update({
+                user_id => $c->session->get(q{user})->{id},
                 wiki_id => $wiki->{id},
                 ( map { $_ => $c->req->param($_) } @params ),                
             });
@@ -83,6 +84,7 @@ sub add {
     if( $c->req->method eq 'POST' ) {
         if( @params == ( grep{ $c->req->param($_) } @params ) ) {
             $c->model('Wiki')->add({
+                user_id => $c->session->get(q{user})->{id},
                 map { $_ => $c->req->param($_) } @params
             });
         }
