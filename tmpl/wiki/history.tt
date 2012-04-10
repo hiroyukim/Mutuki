@@ -1,0 +1,26 @@
+[% WRAPPER 'include/layout.tt' %]
+
+[% IF wiki %][% wiki.title %][% END %]
+
+[% IF wiki_historys && wiki_historys.size() > 0 %]
+    <div>
+        <h3>Wiki History</h3>
+        <table>
+            <tr>
+                <th>更新者</th>
+                <th>更新時</th>
+            </tr>      
+        [% FOR wiki_history IN wiki_historys %]
+            [% SET user = model_user_single(wiki_history.user_id) %]
+            <tr>
+                <td>[% user.name %]</td>
+                <td>[% wiki_history.updated_at %]</td>
+            </tr>
+        [% END %]
+        </table>
+    </div>
+[% ELSE %]
+    <div>まだWiki Historyはありません<div/>
+[% END %]
+
+[% END %]

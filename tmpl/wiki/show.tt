@@ -15,6 +15,7 @@
 
 <div>
     <a href="/wiki/edit?wiki_id=[% wiki.id %]">編集</a>
+    <a href="/wiki/history?wiki_id=[% wiki.id %]">履歴</a>
 </div>
 
 [% END %]

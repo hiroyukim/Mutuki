@@ -17,6 +17,7 @@ connect '/wiki/add'        => { controller => 'Wiki', action => 'add'    };
 connect '/wiki/edit'       => { controller => 'Wiki', action => 'edit'   };
 connect '/wiki/delete'     => { controller => 'Wiki', action => 'delete' };
 connect '/wiki/list'       => { controller => 'Wiki', action => 'list'   };
+connect '/wiki/history'    => { controller => 'Wiki', action => 'history'   };
 
 
 connect '/admin/'                => { controller => 'Admin',       action => 'index'  };

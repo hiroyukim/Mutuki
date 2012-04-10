@@ -64,7 +64,7 @@ __PACKAGE__->load_plugins(
     'Web::CSRFDefender',
     '+Mutuki::Plugin::Model',
     '+Mutuki::Plugin::Validator',
-    #'+Mutuki::Plugin::Auth::Default',
+    '+Mutuki::Plugin::Auth::Default',
 );
 
 # for your security
