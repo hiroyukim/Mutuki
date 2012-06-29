@@ -1,7 +1,7 @@
-DROP   DATABASE if exists mutuki;
+DROP   DATABASE if exists yayoi;
 CREATE DATABASE mutuki DEFAULT CHARACTER SET utf8;
 
-use mutuki;
+use yayoi;
 
 CREATE TABLE IF NOT EXISTS sessions (
     id           CHAR(72) PRIMARY KEY,
