@@ -1,5 +1,5 @@
 DROP   DATABASE if exists yayoi;
-CREATE DATABASE mutuki DEFAULT CHARACTER SET utf8;
+CREATE DATABASE yayoi DEFAULT CHARACTER SET utf8;
 
 use yayoi;
 
